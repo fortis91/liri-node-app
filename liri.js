@@ -11,12 +11,10 @@ var spotify = new Spotify(keys.spotify);
 //process.argv
 var nodeLocation = process.argv[0];
 var nodeLocation = process.argv[1];
-var requestedService = process.argv[2];
+var requestedService = process.argv[2];//.toLowerCase();
 var command = process.argv[3];
 
-let args = process.argv.splice(2);
-console.log(args);
-
+let search = process.argv.slice(3).join(" ");
 
 //test - remove me
 let song = "Buffalo Soldier";
@@ -31,7 +29,7 @@ let searchSpotify = (search) => {
         query: search
     }, function (err, response) {
         // console.log(response.tracks);
-            console.log(response.tracks.items[0].artists[0].name);
+        console.log(response.tracks.items[0].artists[0].name);
         let searchResult = {
             size: response.tracks.items.length,
             artist: response.tracks.items[0].artists[0].name,
@@ -39,8 +37,8 @@ let searchSpotify = (search) => {
             album: response.tracks.items[0].album.name,
             preview: response.tracks.items[0].external_urls.spotify
         }
-            console.log(searchResult);
-            logActivity(searchResult);
+        console.log(searchResult);
+        logActivity(searchResult);
     });
 }
 
@@ -88,7 +86,7 @@ let searchBandsInTown = (search) => {
 }
 
 
-let doWhatItSays = function(){
+let doWhatItSays = function () {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
             return console.log(error);
@@ -113,21 +111,38 @@ let logActivity = function (data) {
 
 
 let printUsage = function () {
-    console.log("LIRI is a Language Interpretation and Recognition Interface")
-    console.log("Usage: node liri.js [service] [value]");
-    console.log("options");
-    
+    const usage = `
+    LIRI is a Language Interpretation and Recognition Interface.
+    LIRI uses the command to search various services and gives you data back.
+
+    usage: 
+        node liri.js <service> <value>
+
+        service:
+            spotify-this-song:  Search Spotify and return information about the song(value) specified.
+            concert-this:  Search Bands in Town Artists and return information about the artist(value) specified.
+            movie-this:  Search OMDB and return information about the movie(value) specified.
+            do-what-it-says:  Perform search specified in random.txt
+
+        value:  value to search for.
+`;
+    // console.log("LIRI is a Language Interpretation and Recognition Interface")
+    // console.log("Usage: node liri.js [service] [value]");
+    // console.log("options");
+    console.log(usage);
+
 }
 
 let testCode = () => {
     // searchSpotify(song);
     // searchBandsInTown(artist);
     // searchOMDB(movie);
-    doWhatItSays();
+    // doWhatItSays();
 }
 
 
 console.clear();
+console.log(search);
 switch (requestedService) {
     case "concert-this":
         console.log("concert this: " + command);
@@ -149,13 +164,6 @@ switch (requestedService) {
         testCode();
         break;
     default:
-        console.log("I don't know to do that yet");
+        console.log("Hi, I'm LIRI: I don't know to do that yet. See what I can do below.");
         printUsage();
 }
-
-//Commnads
-//concert-this
-//spotify-this-song
-//movie-this
-//do-what-it-says
-
