@@ -142,6 +142,7 @@ switch (requestedService) {
         console.log("movie this " + command);
         break;
     case "do-what-it-says":
+        doWhatItSays();
         console.log("do what it says");
         break;
     case "test":
