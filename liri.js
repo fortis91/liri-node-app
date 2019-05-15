@@ -86,7 +86,7 @@ let searchBandsInTown = (search) => {
 
 
 let doWhatItSays = function(){
-    fs.readFile("random.txt", "utf8", function (error, data) {
+    fs.readFile("log.txt", "utf8", function (error, data) {
         if (error) {
             return console.log(error);
         }
@@ -98,19 +98,16 @@ let doWhatItSays = function(){
 
 let logActivity = function (data) {
     fs.appendFile("sample.txt", data, function (err) {
-
-        // If an error was experienced we will log it.
         if (err) {
             console.log(err);
         }
-
-        // If no error is experienced, we'll log the phrase "Content Added" to our node console.
         else {
             console.log("Content Added!");
         }
 
     });
 }
+
 
 let testCode = () => {
     // searchSpotify(song);
