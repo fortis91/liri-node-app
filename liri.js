@@ -36,7 +36,8 @@ let searchSpotify = (search) => {
             album: response.tracks.items[0].album.name,
             preview: response.tracks.items[0].external_urls.spotify
         }
-        console.log(searchResult);
+            console.log(searchResult);
+            logActivity(searchResult);
     });
 }
 
@@ -83,7 +84,8 @@ let searchBandsInTown = (search) => {
         });
 }
 
-let doWhatItSay = function(){
+
+let doWhatItSays = function(){
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
             return console.log(error);
@@ -93,15 +95,32 @@ let doWhatItSay = function(){
     })
 }
 
+
+let logActivity = function (data) {
+    fs.appendFile("sample.txt", data, function (err) {
+
+        // If an error was experienced we will log it.
+        if (err) {
+            console.log(err);
+        }
+
+        // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+        else {
+            console.log("Content Added!");
+        }
+
+    });
+}
+
 let testCode = () => {
     // searchSpotify(song);
     // searchBandsInTown(artist);
     // searchOMDB(movie);
-    doWhatItSay();
+    doWhatItSays();
 }
 
+
 console.clear();
-// console.log(requestedService, command);
 switch (requestedService) {
     case "concert-this":
         console.log("concert this: " + command);
