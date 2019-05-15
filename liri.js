@@ -86,7 +86,7 @@ let searchBandsInTown = (search) => {
 
 
 let doWhatItSays = function(){
-    fs.readFile("log.txt", "utf8", function (error, data) {
+    fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
             return console.log(error);
         }
@@ -97,7 +97,7 @@ let doWhatItSays = function(){
 
 
 let logActivity = function (data) {
-    fs.appendFile("sample.txt", data, function (err) {
+    fs.appendFile("log.txt", data, function (err) {
         if (err) {
             console.log(err);
         }
