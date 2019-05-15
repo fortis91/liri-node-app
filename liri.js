@@ -109,6 +109,13 @@ let logActivity = function (data) {
 }
 
 
+let printUsage = function () {
+    console.log("LIRI is a Language Interpretation and Recognition Interface")
+    console.log("Usage: node liri.js [service] [value]");
+    console.log("options");
+    
+}
+
 let testCode = () => {
     // searchSpotify(song);
     // searchBandsInTown(artist);
@@ -139,6 +146,7 @@ switch (requestedService) {
         break;
     default:
         console.log("I don't know to do that yet");
+        printUsage();
 }
 
 //Commnads
