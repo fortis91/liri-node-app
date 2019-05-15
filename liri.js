@@ -20,7 +20,7 @@ let searchSpotify = (search) => {
         type: 'artist,track',
         query: search
     }, function (err, response) {
-            console.log(response);  
+        console.log(response.tracks);
     });
 }
 
@@ -32,7 +32,7 @@ let searchOMDB = (search) => {
     //http://www.omdbapi.com/?t=%22The%20Matrix%22&y=&plot=short&apikey=trilogy
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             let movieResult = {
                 title: response.data.Title,
                 year: response.data.Year,
@@ -68,6 +68,13 @@ let searchBandsInTown = (search) => {
         });
 }
 
+
+let testCode = () => {
+    searchSpotify("Super Woman");
+    // searchBandsInTown("Chronixx");
+    // searchOMDB("The Matrix");
+}
+
 console.clear();
 // console.log(requestedService, command);
 switch (requestedService) {
@@ -85,6 +92,9 @@ switch (requestedService) {
         break;
     case "do-what-it-says":
         console.log("do what it says");
+        break;
+    case "test":
+        testCode();
         break;
     default:
         console.log("I don't know to do that yet");
