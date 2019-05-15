@@ -14,26 +14,40 @@ var nodeLocation = process.argv[1];
 var requestedService = process.argv[2];
 var command = process.argv[3];
 
+
+//test - remove me
+let song = "Buffalo Soldier";
+let artist = "Chronixx";
+let movie = "The Matrix";
+//test - remove me
+
 //spotify
 let searchSpotify = (search) => {
     spotify.search({
         type: 'artist,track',
         query: search
     }, function (err, response) {
-        console.log(response.tracks);
+        // console.log(response.tracks);
+            console.log(response.tracks.items[0].artists[0].name);
+        let searchResult = {
+            size: response.tracks.items.length,
+            artist: response.tracks.items[0].artists[0].name,
+            song: response.tracks.items[0].name,
+            album: response.tracks.items[0].album.name,
+            preview: response.tracks.items[0].external_urls.spotify
+        }
+        console.log(searchResult);
     });
 }
 
 
 let searchOMDB = (search) => {
-    if (!search) {
-        search = "Mr. Nobody"
-    }
     //http://www.omdbapi.com/?t=%22The%20Matrix%22&y=&plot=short&apikey=trilogy
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
             // console.log(response.data);
             let movieResult = {
+                size: response.length,
                 title: response.data.Title,
                 year: response.data.Year,
                 rating: response.data.Ratings[0].Value,
@@ -70,9 +84,9 @@ let searchBandsInTown = (search) => {
 
 
 let testCode = () => {
-    searchSpotify("Super Woman");
-    // searchBandsInTown("Chronixx");
-    // searchOMDB("The Matrix");
+    // searchSpotify(song);
+    searchBandsInTown(artist);
+    // searchOMDB(movie);
 }
 
 console.clear();
