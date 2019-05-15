@@ -85,7 +85,8 @@ let searchBandsInTown = (search) => {
                 date: response.data[0].datetime,
                 formattedDate: moment(response.data[0].datetime).format("MM/DD/YYYY")
             }
-            console.log(searchResult);
+            // console.log(searchResult);
+            bandsInTownResult(search, response.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -142,8 +143,8 @@ let printUsage = function () {
 }
 
 let testCode = () => {
-    searchSpotify(song);
-    // searchBandsInTown(artist);
+    // searchSpotify(song);
+    searchBandsInTown(artist);
     // searchOMDB(movie);
     // doWhatItSays();
 }
@@ -170,6 +171,19 @@ let spotifyResult = function (result) {
     }
 }
 
+let bandsInTownResult = function (search, result) {
+    // venue: response.data[0].venue.name,
+    //     location: response.data[0].venue.city,
+    //         date: response.data[0].datetime,
+    //             formattedDate: moment(response.data[0].datetime).format("MM/DD/YYYY")
+    console.log("Times and Location for: " + search);
+    for (let i = 0; i < result.length; i++){
+        console.log("\tVenue: " + result[i].venue.name);
+        console.log("\tLocation: " + result[i].venue.city)
+        console.log("\tDate: " + moment(result[i].datetime).format("MM/DD/YYYY"));
+        console.log("");
+    }
+}
 console.clear();
 console.log(search);
 switch (requestedService) {
