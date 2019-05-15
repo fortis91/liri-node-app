@@ -29,7 +29,8 @@ let searchSpotify = (search) => {
         query: search
     }, function (err, response) {
         // console.log(response.tracks);
-        console.log(response.tracks.items[0].artists[0].name);
+        // console.log(response.tracks.items[0].artists[0].name);
+        // logActivity(search);
         let searchResult = {
             size: response.tracks.items.length,
             artist: response.tracks.items[0].artists[0].name,
@@ -37,17 +38,22 @@ let searchSpotify = (search) => {
             album: response.tracks.items[0].album.name,
             preview: response.tracks.items[0].external_urls.spotify
         }
-        console.log(searchResult);
-        logActivity(searchResult);
+        // console.log(searchResult);
+        // displaySearchResult(searchResult);
+        spotifyResult(response.tracks.items);
+        // logActivity(searchResult);
     });
 }
 
 
+//OMDB
 let searchOMDB = (search) => {
     //http://www.omdbapi.com/?t=%22The%20Matrix%22&y=&plot=short&apikey=trilogy
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
             // console.log(response.data);
+            logActivity(search);
+
             let movieResult = {
                 size: response.length,
                 title: response.data.Title,
@@ -66,6 +72,7 @@ let searchOMDB = (search) => {
 }
 
 
+//Bands in Town
 let searchBandsInTown = (search) => {
     //https://rest.bandsintown.com/artists/Chronixx/events?app_id=codingbootcamp
     axios.get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp")
@@ -86,6 +93,7 @@ let searchBandsInTown = (search) => {
 }
 
 
+//do what it says
 let doWhatItSays = function () {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
@@ -98,7 +106,7 @@ let doWhatItSays = function () {
 
 
 let logActivity = function (data) {
-    fs.appendFile("log.txt", data, function (err) {
+    fs.appendFile("log.txt", data + "\n", function (err) {
         if (err) {
             console.log(err);
         }
@@ -134,12 +142,33 @@ let printUsage = function () {
 }
 
 let testCode = () => {
-    // searchSpotify(song);
+    searchSpotify(song);
     // searchBandsInTown(artist);
     // searchOMDB(movie);
     // doWhatItSays();
 }
 
+let displaySearchResult = function (result) {
+    console.log("Artist: " + result.artist);
+    console.log("Song: " + result.song);
+    console.log("Preview: " + result.preview);
+    console.log("Album: " + result.album);
+}
+
+let spotifyResult = function (result) {
+    let displayAmount = result.length;
+    if (result.length > 5) {
+        console.log("Very popular song, displaying the first 5 results:");
+        displayAmount = 5;
+    }
+    for (let i = 0; i < displayAmount; i++) {
+        console.log("\tArtists: " + result[i].artists[0].name);
+        console.log("\tSong: " + result[i].name);
+        console.log("\tAlbum: " + result[i].album.name);
+        console.log("\tPreview: " + result[i].external_urls.spotify);
+        console.log("");
+    }
+}
 
 console.clear();
 console.log(search);
