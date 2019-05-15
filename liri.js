@@ -73,7 +73,8 @@ let searchBandsInTown = (search) => {
                 size: response.data.length,
                 venue: response.data[0].venue.name,
                 location: response.data[0].venue.city,
-                date: response.data[0].datetime
+                date: response.data[0].datetime,
+                formattedDate: moment(response.data[0].datetime).format("MM/DD/YYYY")
             }
             console.log(searchResult);
         })
@@ -82,11 +83,21 @@ let searchBandsInTown = (search) => {
         });
 }
 
+let doWhatItSay = function(){
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        let dataArr = data.split(",");
+        searchSpotify(dataArr[1])
+    })
+}
 
 let testCode = () => {
     // searchSpotify(song);
-    searchBandsInTown(artist);
+    // searchBandsInTown(artist);
     // searchOMDB(movie);
+    doWhatItSay();
 }
 
 console.clear();
