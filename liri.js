@@ -14,6 +14,9 @@ var nodeLocation = process.argv[1];
 var requestedService = process.argv[2];
 var command = process.argv[3];
 
+let args = process.argv.splice(2);
+console.log(args);
+
 
 //test - remove me
 let song = "Buffalo Soldier";
