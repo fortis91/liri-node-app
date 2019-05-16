@@ -12,9 +12,9 @@ var spotify = new Spotify(keys.spotify);
 var nodeLocation = process.argv[0];
 var nodeLocation = process.argv[1];
 var requestedService = process.argv[2];//.toLowerCase();
-var command = process.argv[3];
+// var command = process.argv[3];
 
-let search = process.argv.slice(3).join(" ");
+let command = process.argv.slice(3).join(" ");
 
 //test - remove me
 let song = "Buffalo Soldier";
@@ -52,7 +52,7 @@ let searchOMDB = (search) => {
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
             // console.log(response.data);
-            logActivity(search);
+            // logActivity(search);
 
             let movieResult = {
                 size: response.length,
@@ -64,7 +64,8 @@ let searchOMDB = (search) => {
                 plot: response.data.Plot,
                 actors: response.data.Actors
             }
-            console.log(movieResult);
+            // console.log(movieResult);
+            omdbResult(search, response.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -144,8 +145,8 @@ let printUsage = function () {
 
 let testCode = () => {
     // searchSpotify(song);
-    searchBandsInTown(artist);
-    // searchOMDB(movie);
+    // searchBandsInTown(artist);
+    searchOMDB(movie);
     // doWhatItSays();
 }
 
@@ -184,8 +185,29 @@ let bandsInTownResult = function (search, result) {
         console.log("");
     }
 }
+
+let omdbResult = function (search, result) {
+    //                size: response.length,
+                // title: response.data.Title,
+                // year: response.data.Year,
+                // rating: response.data.Ratings[0].Value,
+                // country: response.data.Country,
+                // language: response.data.Language,
+                // plot: response.data.Plot,
+                // actors: response.data.Actors
+    console.log("Search result for: " + search);
+    console.log("");
+    console.log("Title: " + result.Title);
+    console.log("Year: " + result.Year);
+    console.log("Country: " + result.Country);
+    console.log("Language: " + result.Language);
+    console.log("Plot: " + result.Plot);
+    console.log("Actors: " + result.Actors);
+    console.log("");
+}
+
 console.clear();
-console.log(search);
+// console.log(search);
 switch (requestedService) {
     case "concert-this":
         console.log("concert this: " + command);
