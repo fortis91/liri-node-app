@@ -1,19 +1,17 @@
 require("dotenv").config();
 
-var keys = require("./keys.js");
-var Spotify = require('node-spotify-api');
-var axios = require("axios");
-var moment = require("moment");
-var fs = require("fs");
+const keys = require("./keys.js");
+const Spotify = require('node-spotify-api');
+const axios = require("axios");
+const moment = require("moment");
+const fs = require("fs");
 
-var spotify = new Spotify(keys.spotify);
+const spotify = new Spotify(keys.spotify);
 
 //process.argv
-var nodeLocation = process.argv[0];
-var nodeLocation = process.argv[1];
-var requestedService = process.argv[2];//.toLowerCase();
-// var command = process.argv[3];
-
+let nodeLocation = process.argv[0];
+let nodeProgram = process.argv[1];
+let requestedService = process.argv[2];//.toLowerCase();
 let command = process.argv.slice(3).join(" ");
 
 //test - remove me
@@ -28,9 +26,6 @@ let searchSpotify = (search) => {
         type: 'artist,track',
         query: search
     }, function (err, response) {
-        // console.log(response.tracks);
-        // console.log(response.tracks.items[0].artists[0].name);
-        // logActivity(search);
         let searchResult = {
             size: response.tracks.items.length,
             artist: response.tracks.items[0].artists[0].name,
@@ -38,10 +33,7 @@ let searchSpotify = (search) => {
             album: response.tracks.items[0].album.name,
             preview: response.tracks.items[0].external_urls.spotify
         }
-        // console.log(searchResult);
-        // displaySearchResult(searchResult);
         spotifyResult(response.tracks.items);
-        // logActivity(searchResult);
     });
 }
 
@@ -51,9 +43,6 @@ let searchOMDB = (search) => {
     //http://www.omdbapi.com/?t=%22The%20Matrix%22&y=&plot=short&apikey=trilogy
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
-            // console.log(response.data);
-            // logActivity(search);
-
             let movieResult = {
                 size: response.length,
                 title: response.data.Title,
@@ -64,7 +53,6 @@ let searchOMDB = (search) => {
                 plot: response.data.Plot,
                 actors: response.data.Actors
             }
-            // console.log(movieResult);
             omdbResult(search, response.data);
         })
         .catch(function (error) {
@@ -78,7 +66,6 @@ let searchBandsInTown = (search) => {
     //https://rest.bandsintown.com/artists/Chronixx/events?app_id=codingbootcamp
     axios.get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp")
         .then(function (response) {
-            // console.log(response.data);
             let searchResult = {
                 size: response.data.length,
                 venue: response.data[0].venue.name,
@@ -86,7 +73,6 @@ let searchBandsInTown = (search) => {
                 date: response.data[0].datetime,
                 formattedDate: moment(response.data[0].datetime).format("MM/DD/YYYY")
             }
-            // console.log(searchResult);
             bandsInTownResult(search, response.data);
         })
         .catch(function (error) {
@@ -96,7 +82,7 @@ let searchBandsInTown = (search) => {
 
 
 //do what it says
-let doWhatItSays = function () {
+let doWhatItSays = () => {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
             return console.log(error);
@@ -107,7 +93,7 @@ let doWhatItSays = function () {
 }
 
 
-let logActivity = function (data) {
+let logActivity = (data) => {
     fs.appendFile("log.txt", data + "\n", function (err) {
         if (err) {
             console.log(err);
@@ -120,7 +106,7 @@ let logActivity = function (data) {
 }
 
 
-let printUsage = function () {
+let printUsage = () => {
     const usage = `
     LIRI is a Language Interpretation and Recognition Interface.
     LIRI uses the command to search various services and gives you data back.
@@ -136,9 +122,6 @@ let printUsage = function () {
 
         value:  value to search for.
 `;
-    // console.log("LIRI is a Language Interpretation and Recognition Interface")
-    // console.log("Usage: node liri.js [service] [value]");
-    // console.log("options");
     console.log(usage);
 
 }
@@ -150,14 +133,14 @@ let testCode = () => {
     // doWhatItSays();
 }
 
-let displaySearchResult = function (result) {
+let displaySearchResult =  (result) => {
     console.log("Artist: " + result.artist);
     console.log("Song: " + result.song);
     console.log("Preview: " + result.preview);
     console.log("Album: " + result.album);
 }
 
-let spotifyResult = function (result) {
+let spotifyResult =  (result) => {
     let displayAmount = result.length;
     if (result.length > 5) {
         console.log("Very popular song, displaying the first 5 results:");
@@ -172,13 +155,9 @@ let spotifyResult = function (result) {
     }
 }
 
-let bandsInTownResult = function (search, result) {
-    // venue: response.data[0].venue.name,
-    //     location: response.data[0].venue.city,
-    //         date: response.data[0].datetime,
-    //             formattedDate: moment(response.data[0].datetime).format("MM/DD/YYYY")
+let bandsInTownResult =  (search, result) => {
     console.log("Times and Location for: " + search);
-    for (let i = 0; i < result.length; i++){
+    for (let i = 0; i < result.length; i++) {
         console.log("\tVenue: " + result[i].venue.name);
         console.log("\tLocation: " + result[i].venue.city)
         console.log("\tDate: " + moment(result[i].datetime).format("MM/DD/YYYY"));
@@ -186,15 +165,7 @@ let bandsInTownResult = function (search, result) {
     }
 }
 
-let omdbResult = function (search, result) {
-    //                size: response.length,
-                // title: response.data.Title,
-                // year: response.data.Year,
-                // rating: response.data.Ratings[0].Value,
-                // country: response.data.Country,
-                // language: response.data.Language,
-                // plot: response.data.Plot,
-                // actors: response.data.Actors
+let omdbResult =  (search, result) => {
     console.log("Search result for: " + search);
     console.log("");
     console.log("Title: " + result.Title);
@@ -207,7 +178,6 @@ let omdbResult = function (search, result) {
 }
 
 console.clear();
-// console.log(search);
 switch (requestedService) {
     case "concert-this":
         console.log("concert this: " + command);
