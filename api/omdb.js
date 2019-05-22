@@ -1,7 +1,9 @@
 const axios = require("axios");
 
 let searchOMDB = (search) => {
-    //http://www.omdbapi.com/?t=%22The%20Matrix%22&y=&plot=short&apikey=trilogy
+    if (!search) {
+        search = "Mr. Nobody";
+    }
     axios.get("http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy")
         .then( (response) =>{
             omdbResult(search, response.data);

@@ -2,7 +2,6 @@ const axios = require("axios");
 const moment = require("moment");
 
 let searchBandsInTown = (search) => {
-    //https://rest.bandsintown.com/artists/Chronixx/events?app_id=codingbootcamp
     axios.get("https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp")
         .then( (response) =>{
             bandsInTownResult(search, response.data);

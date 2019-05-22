@@ -9,11 +9,9 @@ let band = require("./api/bands");
 let requestedService = process.argv[2];//.toLowerCase();
 let command = process.argv.slice(3).join(" ");
 
-//test - remove me
 let song = "Buffalo Soldier";
 let artist = "Chronixx";
 let movie = "The Matrix";
-//test - remove me
 
 //do what it says
 let doWhatItSays = () => {
@@ -58,13 +56,10 @@ let printUsage = () => {
 }
 
 let testCode = () => {
-    // searchSpotify(song);
     spotify.searchSpotify(song);
-    // searchBandsInTown(artist);
-    // band.searchBandsInTown(artist);
-    // searchOMDB(movie);
-    // omdb.searchOMDB(movie);
-    // doWhatItSays();
+    band.searchBandsInTown(artist);
+    omdb.searchOMDB(movie);
+    doWhatItSays();
 }
 
 
