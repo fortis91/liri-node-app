@@ -60,28 +60,32 @@ npm install
 
 1. Clone the repo
 ```sh
-git clone https://github.com/fortis91/bamazon
+git clone https://github.com/fortis91/liri-node-app
 ```
 2. Install NPM packages
 ```sh
 npm install
+```
+3. Enter Spotiy key in
+```JS
+keys.js
 ```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Run Bamazon Customer
+Search the Bands in Town Artist Events
 ```sh
-node bamazonCustomer
+node liri.js concert-this <artist/band name here>
 ```
-Run Bamazon Manager
+Search Spotify for Song/Artist info
 ```sh
-node bamazonManager
+node liri.js spotify-this-song '<song name here>'
 ```
-Run Bamazon Supervisor
+Search OMDB for movie info
 ```sh
-node bamazonSupervisor
+node liri.js movie-this '<movie name here>'
 ```
 
 <!-- CONTACT -->
@@ -89,6 +93,6 @@ node bamazonSupervisor
 
 <!-- Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com -->
 
-Project Link: [https://github.com/fortis91/bamazon](https://github.com/fortis91/bamazon)
+Project Link: [https://github.com/fortis91/liri-node-app](https://github.com/fortis91/liri-node-app)
 
 
